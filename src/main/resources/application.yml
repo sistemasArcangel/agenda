@@ -1,0 +1,23 @@
+server:
+  port: 8887
+    
+spring:
+  cloud:
+    gateway:
+      routes:
+      
+      #BACKEND
+        - id: proyectoback
+          uri: http://localhost:3030
+          predicates:
+            - Path=/api/proyectoback/**
+          filters:
+            - RewritePath=/api/(?<proyectoback>.*), /$\{proyectoback}
+    
+      #FRONTEND
+        - id: angular
+          uri: http://localhost:4200
+          predicates:
+            - Path=/**
+          filters:
+            - RewritePath=/(?<service>.*), /$\{service}
